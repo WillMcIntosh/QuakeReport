@@ -4,6 +4,7 @@ public class Earthquake {
     private double magnitude;
     private String location;
     private Long timeInMilliseconds;
+    private String Url;
 
     /**
      * Constructs a new {@link Earthquake} object.
@@ -13,10 +14,11 @@ public class Earthquake {
      * @param timeInMilliseconds is the time in milliseconds (from the Epoch) when the
      *  earthquake happened
      */
-    public Earthquake(double magnitude, String location, Long timeInMilliseconds) {
+    public Earthquake(double magnitude, String location, Long timeInMilliseconds, String url) {
         this.magnitude = magnitude;
         this.location = location;
         this.timeInMilliseconds = timeInMilliseconds;
+        this.Url = url;
     }
 
     public double getMagnitude() {
@@ -29,5 +31,9 @@ public class Earthquake {
 
     public Long getTimeInMilliseconds() {
         return timeInMilliseconds;
+    }
+
+    public String getUrl() {
+        return Url;
     }
 }
