@@ -17,8 +17,11 @@ package com.example.android.quakereport;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.Loader;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +49,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     /** TextView to be displayed when the list is empty */
     private TextView mEmptyStateView;
+
+    /** Connection status */
+    private boolean isConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +103,16 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         mEmptyStateView = (TextView) findViewById(R.id.empty_view);
         earthquakeListView.setEmptyView(mEmptyStateView);
 
+        /** Determine if there is a network connection */
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context
+                        .CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
     }
 
     @Override
@@ -107,13 +123,21 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display "No earthquakes found."
-        mEmptyStateView.setText(R.string.no_earthquakes);
+        // Default empty state text for when there is no connection
+        mEmptyStateView.setText(R.string.no_internet);
+
+        if (isConnected) {
+            // Set empty state text to display "No earthquakes found."
+            mEmptyStateView.setText(R.string.no_earthquakes);
+
+        }
 
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
-
 
         // If there is a valid list of {@link Earthquake}s, add them to
         // the adapters data set, which will trigger a ListView update

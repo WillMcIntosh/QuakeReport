@@ -183,6 +183,13 @@ public final class QueryUtils {
     public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
         URL url = createURL(requestUrl);
 
+        // used to test loading bar
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
