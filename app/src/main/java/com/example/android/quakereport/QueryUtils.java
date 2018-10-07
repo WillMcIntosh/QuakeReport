@@ -6,7 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import static com.example.android.quakereport.EarthquakeActivity.LOG_TAG;
 
 /**
  * Helper methods related to requesting and receiving earthquake data from USGS.
@@ -47,7 +51,7 @@ public final class QueryUtils {
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
-            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
+            // Parse the response given by the SAMPLE_JSON_RESPONSE string and
             // build up a list of Earthquake objects with the corresponding data.
 
             JSONObject baseJsonObject = new JSONObject(SAMPLE_JSON_RESPONSE);
@@ -80,5 +84,21 @@ public final class QueryUtils {
         // Return the list of earthquakes
         return earthquakes;
     }
+
+    /**
+     * Returns new URL object from a given String URL
+     */
+    private static URL createURL(String stringURL) {
+        URL url = null;
+        try {
+            url =  new URL(stringURL);
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, "Problem building URL ", e );
+        }
+
+        return url;
+    }
+
+    
 
 }
