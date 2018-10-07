@@ -18,47 +18,60 @@ import java.util.Date;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
-    private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
+    private static final String LOG_TAG = EarthquakeAdapter.class
+            .getSimpleName();
     private static final String LOCATION_SEPARATOR = " of ";
+
     /**
-     * This is our own custom constructor (it doesn't mirror a superclass constructor).
-     * The context is used to inflate the layout file, and the list is the data we want
+     * This is our own custom constructor (it doesn't mirror a superclass
+     * constructor).
+     * The context is used to inflate the layout file, and the list is the
+     * data we want
      * to populate into the lists.
      *
-     * @param context        The current context. Used to inflate the layout file.
+     * @param context     The current context. Used to inflate the layout file.
      * @param earthquakes A List of Earthquake objects to display in a list
      */
-    public EarthquakeAdapter(Activity context, ArrayList<Earthquake> earthquakes) {
-        // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
-        // the second argument is used when the ArrayAdapter is populating a single TextView.
-        // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
-        // going to use this second argument, so it can be any value. Here, we used 0.
+    public EarthquakeAdapter(Activity context, ArrayList<Earthquake>
+            earthquakes) {
+        // Here, we initialize the ArrayAdapter's internal storage for the
+        // context and the list.
+        // the second argument is used when the ArrayAdapter is populating a
+        // single TextView.
+        // Because this is a custom adapter for two TextViews and an
+        // ImageView, the adapter is not
+        // going to use this second argument, so it can be any value. Here,
+        // we used 0.
         super(context, 0, earthquakes);
     }
 
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)
      *
-     * @param position The position in the list of data that should be displayed in the
-     *                 list item view.
+     * @param position    The position in the list of data that should be
+     *                    displayed in the
+     *                    list item view.
      * @param convertView The recycled view to populate.
-     * @param parent The parent ViewGroup that is used for inflation.
+     * @param parent      The parent ViewGroup that is used for inflation.
      * @return The View for the position in the AdapterView.
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Check if the existing view is being reused, otherwise inflate the view
+        // Check if the existing view is being reused, otherwise inflate the
+        // view
         View listItemView = convertView;
-        if(listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout
+                    .list_item, parent, false);
         }
 
-        // Get the {@link Earthquake} object located at this position in the list
+        // Get the {@link Earthquake} object located at this position in the
+        // list
         Earthquake currentEarthquake = getItem(position);
 
         // Find the TextView in the list_item.xml layout with the ID mag
-        TextView magTextView = (TextView) listItemView.findViewById(R.id.magnitude);
+        TextView magTextView = (TextView) listItemView.findViewById(R.id
+                .magnitude);
         // Get the magnitude from the current Earthquake object and
         // set this text on the mag TextView
         DecimalFormat formatter = new DecimalFormat("0.0");
@@ -67,10 +80,13 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         // Set the proper background color on the magnitude circle.
         // Fetch the background from the TextView, which is a GradientDrawable.
-        GradientDrawable magnitudeCircle = (GradientDrawable) magTextView.getBackground();
+        GradientDrawable magnitudeCircle = (GradientDrawable) magTextView
+                .getBackground();
 
-        // Get the appropriate background color based on the current earthquake magnitude
-        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude());
+        // Get the appropriate background color based on the current
+        // earthquake magnitude
+        int magnitudeColor = getMagnitudeColor(currentEarthquake.getMagnitude
+                ());
 
         // Set the color on the magnitude circle
         magnitudeCircle.setColor(magnitudeColor);
@@ -91,14 +107,17 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
             primaryLocation = originalLocation;
         }
 
-        TextView primaryLocationView = (TextView) listItemView.findViewById(R.id.primary_location);
+        TextView primaryLocationView = (TextView) listItemView.findViewById(R
+                .id.primary_location);
         primaryLocationView.setText(primaryLocation);
 
-        TextView locationOffsetView = (TextView) listItemView.findViewById(R.id.location_offset);
+        TextView locationOffsetView = (TextView) listItemView.findViewById(R
+                .id.location_offset);
         locationOffsetView.setText(locationOffset);
 
 
-        // Create a new Date object from the time in milliseconds of the earthquake
+        // Create a new Date object from the time in milliseconds of the
+        // earthquake
         Date dateObject = new Date(currentEarthquake.getTimeInMilliseconds());
 
         // Find the TextView with view ID date
@@ -141,7 +160,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         int magnitudeColorResourceId;
         int magnitudeFloor = (int) Math.floor(magnitude);
 
-        switch(magnitudeFloor) {
+        switch (magnitudeFloor) {
             case 0:
             case 1:
                 magnitudeColorResourceId = R.color.magnitude1;
